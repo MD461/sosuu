@@ -6,7 +6,7 @@
 
 python3でデフォルトで使えるモジュールのみを使っていますので、python3の使える環境で起動できると思います。
 
-※tkinterのバージョンによっては多少配置等が変わってしまう場合があります。
+  ※tkinterのバージョンによっては多少配置等が変わってしまう場合があります。
 - Pyhon3のインストール及び実行について: https://www.python.jp/install/windows/install_py3.html
 
 ## ルール
