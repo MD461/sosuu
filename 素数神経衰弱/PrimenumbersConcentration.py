@@ -38,7 +38,10 @@ def judge_prime_factor(N):
 
 # 素数判定のみ こちらの方が早い
 def judge_prime_number(N):
-    for i in range(2,int(math.sqrt(N))):
+    for i in range(2,int(math.sqrt(N))+1):
+        if N <= 1:
+            tmsg.showinfo("判定結果", f"{N}は素数ではありません")
+            return False
         if N % i == 0:
             tmsg.showinfo("判定結果", f"{N}は素数ではありません")
             return False
