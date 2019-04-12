@@ -38,16 +38,43 @@ def judge_prime_factor(N):
 
 # 素数判定のみ こちらの方が早い
 def judge_prime_number(N):
+    if N <= 1:
+        tmsg.showinfo("判定結果", f"{N}は素数ではありません")
+        return False
     for i in range(2,int(math.sqrt(N))+1):
-        if N <= 1:
-            tmsg.showinfo("判定結果", f"{N}は素数ではありません")
-            return False
         if N % i == 0:
             tmsg.showinfo("判定結果", f"{N}は素数ではありません")
             return False
     else:
         tmsg.showinfo("判定結果", f"{N}は素数です")
         return True
+
+
+# ミラー–ラビン素数判定法(確率的判定法)
+def miller_rabin(n):
+    if n == 2: return True
+    if n == 1 or n & 1 == 0:
+        tmsg.showinfo("判定結果", f"{n}は素数ではありません")
+        return False
+
+    d = (n - 1) >> 1
+    while d & 1 == 0:
+        d >>= 1
+
+    for _ in range(20):
+        a = random.randint(1, n - 1)
+        t = d
+        y = pow(a, t, n)
+
+        while t != n - 1 and y != 1 and y != n - 1:
+            y = (y * y) % n
+            t <<= 1
+
+        if y != n - 1 and t & 1 == 0:
+            tmsg.showinfo("判定結果", f"{n}は素数ではありません")
+            return False
+    tmsg.showinfo("判定結果", f"{n}は素数です")
+    return True
 
 
 # 山札作成(0文字、1数字、2通常画像、3クリックした時の画像、4裏側の画像)
@@ -93,7 +120,10 @@ def judge():
     if checked_number_label["text"] != "": # 何も選択されていない場合は何もしない
 
         # 桁数が多いと計算時間が長くなりすぎてしまうため素因数は求めない
-        if len(checked_number_label["text"]) > 8:
+
+        if len(checked_number_label["text"]) > 20:
+            fanction = miller_rabin         # ※確率的判定法
+        elif len(checked_number_label["text"]) > 8:
             fanction = judge_prime_number   # 素数判定のみなのではやい
         else:
             fanction = judge_prime_factor   # 素因数も求める代わりに遅い
