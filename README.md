@@ -6,8 +6,12 @@
 
 python3でデフォルトで使えるモジュールのみを使っていますので、python3の使える環境で起動できると思います。<br>
 
+
+
   ※tkinterのバージョンによっては多少配置等が変わってしまう場合があります。<br>
 - Pyhon3のインストール及び実行について: https://www.python.jp/install/windows/install_py3.html
+
+動作確認環境 : macOS 10.13.6 High Sierra  <br>
 
 ## ルール
 
