@@ -2,7 +2,7 @@
 import math
 import random
 import tkinter as tk
-import tkinter.messagebox as tmsg
+from tkinter import messagebox as tmsg
 
 root = tk.Tk()
 root.title("素数神経衰弱")
@@ -20,8 +20,8 @@ def judge_prime_factor(N):
         return True
     i = 2
     flg = True  # True=素数
-    PF = f"{N}は素数ではありません\n\n{N}="   # 素因数を入れる変数
-    while i < N:    # 2から判定する数-1までの数で割る
+    PF = f"{N}は素数ではありません。\n\n{N}="   # 素因数を入れる変数
+    while i < int(math.sqrt(N))+1:
         if N % i == 0:  #
             PF += f"{i}×"
             N = N // i  # 素因数で割って数を更新
@@ -81,12 +81,6 @@ def miller_rabin(n):
 def make_deck():
     return [(m, n, tk.PhotoImage(file=f"gif/{m}{n}.gif"),tk.PhotoImage(file=f"gif/{m}{n}clicked.gif"),tk.PhotoImage(file=f"gif/z1.gif")) for m in ["c","d","h","s"] for n in range(1,14)]
 
-# 山札からランダムに選んだ1枚を手札に加え山札から消す 今回は使わない
-def draw(hand,n):
-    for _ in range(n):
-        card = random.choice(deck)
-        hand.append(card)
-        deck.remove(card)
 
 # 素数に使われたカードをnullに変え、墓地に加える removeしないのはリストの番号がずれてしまうため
 def field_to_cemetery():
@@ -104,6 +98,7 @@ def make_field():
 
 # クリックしたカードを文字として後ろから足し、画像を切り替え、クリックできなくして、リストに追加する。
 def click_card(e,n):
+
     def x():
         checked_number_label["text"] += str(e)
         cardbuttons[n]["image"] = deck[n][2]
@@ -119,12 +114,10 @@ def judge():
 
     if checked_number_label["text"] != "": # 何も選択されていない場合は何もしない
 
-        # 桁数が多いと計算時間が長くなりすぎてしまうため素因数は求めない
-
         if len(checked_number_label["text"]) > 20:
             fanction = miller_rabin         # ※確率的判定法
-        elif len(checked_number_label["text"]) > 8:
-            fanction = judge_prime_number   # 素数判定のみなのではやい
+        # elif len(checked_number_label["text"]) > 10:
+        #     fanction = judge_prime_number   # 素数判定のみなのではやい
         else:
             fanction = judge_prime_factor   # 素因数も求める代わりに遅い
 
@@ -187,12 +180,9 @@ Players = [Player1, Player2, Player3, Player4]
 
 number_of_people = 2
 
-
-cemetery = []   # 今回はあまり意味はない
-
+cemetery = []
 clicked = []    # 選択しているカードを一時的に保持する
 cardbuttons = []    # あとでカードの状態を変えやすいように収納しておくためのリスト
-
 
 button1 = tk.Button(root, text="決定", font=("",30),command=judge)
 button1.place(x=50, y=470)
@@ -201,8 +191,8 @@ button1.place(x=50, y=470)
 #button2.place(x=300, y=550)
 
 # 選択したカード達を表すラベル
-checked_number_label = tk.Label(root, text="", font=("",30),foreground="black", background="white",width="70", anchor="w")
-checked_number_label.place(x=130,y=470)
+checked_number_label = tk.Label(root, text="", font=("",30),foreground="black", background="white",width="50", anchor="w")
+checked_number_label.place(x=170,y=480)
 
 # 手番を表すラベル
 Turn_label = tk.Label(root, text=f'{Players[0]["name"]}の番です',font=("",20))
